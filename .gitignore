@@ -1,0 +1,12 @@
+$*
+~*
+*.laccdb
+*.bak
+NOTES-draft.txt
+TODO-draft.txt
+mdlDrafts.bas
+drafts
+drafts/*
+basicaccessories_doc_html
+basicaccessories_doc_html/*
+BasicAccessories.accdb

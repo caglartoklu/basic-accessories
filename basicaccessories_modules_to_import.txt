@@ -1,0 +1,29 @@
+' The valid file names defined in this file are automatically
+' imported by Loader.FillModulesList()
+' Be careful while editing this file.
+' If you add a brand new module, do not forget to add its name
+' to this module.
+
+' lines starting with ' are comments.
+; this is a comment too.
+# this is a comment too.
+
+' mdlLoader.bas is a special module that is not to be imported
+' automatically nor removed.
+' That is why it is not defined in this file.
+' The file mdlLoader.bas is manually kept in sync
+' with the one in the .accdb file.
+
+' mdlArrays.bas
+' mdlArraysTest.bas
+mdlDatabase.bas
+mdlDatabaseTest.bas
+mdlDate.bas
+mdlDateTest.bas
+mdlDrafts.bas
+mdlFiles.bas
+mdlFilesTest.bas
+mdlStrings.bas
+mdlStringsTest.bas
+mdlUnitTestLib.bas
+mdlUnitTestRunner.bas
