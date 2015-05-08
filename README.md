@@ -76,17 +76,17 @@ The output in the *Immediate Window* would resemble this:
 
 ```
 Call mdlLoader.ImportModulesFromDisk()
-Module does not exist in BasicAccessories:mdlDatabase
-Module does not exist in BasicAccessories:mdlDatabaseTest
-Module does not exist in BasicAccessories:mdlDate
-Module does not exist in BasicAccessories:mdlDateTest
-Module does not exist in BasicAccessories:mdlDrafts
-Module does not exist in BasicAccessories:mdlFiles
-Module does not exist in BasicAccessories:mdlFilesTest
-Module does not exist in BasicAccessories:mdlStrings
-Module does not exist in BasicAccessories:mdlStringsTest
-Module does not exist in BasicAccessories:mdlUnitTestLib
-Module does not exist in BasicAccessories:mdlUnitTestRunner
+Mew module to add : mdlDatabase
+Mew module to add : mdlDatabaseTest
+Mew module to add : mdlDate
+Mew module to add : mdlDateTest
+Mew module to add : mdlDrafts
+Mew module to add : mdlFiles
+Mew module to add : mdlFilesTest
+Mew module to add : mdlStrings
+Mew module to add : mdlStringsTest
+Mew module to add : mdlUnitTestLib
+Mew module to add : mdlUnitTestRunner
 ```
 
 It means that the modules are imported and ready to use.
