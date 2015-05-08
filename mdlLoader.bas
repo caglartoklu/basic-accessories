@@ -215,9 +215,9 @@ Public Sub ImportModulesFromDisk()
 
                 Set component = FindVBComponent(moduleName)
                 If component Is Nothing Then
-                    Debug.Print ("Module does not exist in BasicAccessories : " & moduleName)
+                    Debug.Print ("New module to add : " & moduleName)
                 Else
-                    Debug.Print ("Module to overwrite in BasicAccessories : " & moduleName)
+                    Debug.Print ("Module to overwrite : " & moduleName)
                     VBE.ActiveVBProject.VBComponents.Remove (component)
                 End If
 
