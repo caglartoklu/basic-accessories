@@ -81,7 +81,7 @@ End Function
 '
 ' Parameters:
 ' characterSet - A string containing candidate characters
-' stringLength - The lenght of the produced random string
+' stringLength - The length of the produced random string
 '
 ' Returns:
 ' a random string with the specified length
@@ -104,4 +104,130 @@ Public Function RandomString(ByVal characterSet As String, ByVal stringLength As
         Next
     End If
     RandomString = result
+End Function
+
+
+' Function: RemoveFromLeft
+' Removes n characters from the left of
+' the string and returns the remaining part.
+'
+' Parameters:
+' haystack - The big string
+' length - The length of the characters to be removed from left
+'
+' Returns:
+' Haystack except some characters removed from left.
+Public Function RemoveFromLeft(ByVal haystack As String, ByVal length As Integer) As String
+    Dim result As String
+    If length < 0 Then
+        length = 0
+    End If
+    If length >= Len(haystack) Then
+        result = ""
+    Else
+        result = Right(haystack, Len(haystack) - length)
+    End If
+    RemoveFromLeft = result
+End Function
+
+
+' Function: RemoveFromRight
+' Removes n characters from the right of
+' the string and returns the remaining part.
+'
+' Parameters:
+' haystack - The big string
+' length - The length of the characters to be removed from right
+'
+' Returns:
+' Haystack except some characters removed from right.
+Public Function RemoveFromRight(ByVal haystack As String, ByVal length As Integer) As String
+    Dim result As String
+    If length < 0 Then
+        length = 0
+    End If
+    If length >= Len(haystack) Then
+        result = ""
+    Else
+        result = Left(haystack, Len(haystack) - length)
+    End If
+    RemoveFromRight = result
+End Function
+
+
+' Function: PadLeft
+' Pads strNeedle from left using strPadChar until the lenght becomes intMax
+'
+' Parameters:
+' strNeedle - The string to be padded
+' intMax - The maximum length of the padded string
+' strPadChar - The character to be used for padding.
+' If the length is longer than 1, only the first character will be used.
+'
+' Returns a copy of strNeedle padded with strPadChar from left.
+Public Function PadLeft(ByVal strNeedle As String, ByVal intMax As Integer, ByVal strPadChar As String) As String
+    Dim i As Integer
+    Dim strResult As String
+    strResult = strNeedle
+
+    ' make sure that strPadChar is exactly 1 byte;
+    ' nothing less:
+    strPadChar = Trim(strPadChar)
+    If Len(strPadChar) = 0 Then
+        strPadChar = " "
+    End If
+    ' nothing more:
+    strPadChar = Left(strPadChar, 1)
+
+    Dim strMissing As String
+
+    Dim intMissing As Integer
+    intMissing = intMax - Len(strNeedle)
+
+    If intMissing > 0 Then
+        For i = 1 To intMissing
+            strResult = strPadChar & strResult
+        Next
+    End IF
+
+    PadLeft = strResult
+End Function
+
+
+' Function: PadRight
+' Pads strNeedle from right using strPadChar until the lenght becomes intMax
+'
+' Parameters:
+' strNeedle - The string to be padded
+' intMax - The maximum length of the padded string
+' strPadChar - The character to be used for padding.
+' If the length is longer than 1, only the first character will be used.
+'
+' Returns a copy of strNeedle padded with strPadChar from right.
+Public Function PadRight(ByVal strNeedle As String, ByVal intMax As Integer, ByVal strPadChar As String) As String
+    Dim i As Integer
+    Dim strResult As String
+    strResult = strNeedle
+
+    ' make sure that strPadChar is exactly 1 byte;
+    ' nothing less:
+    strPadChar = Trim(strPadChar)
+    If Len(strPadChar) = 0 Then
+        strPadChar = " "
+    End If
+    ' nothing more:
+    strPadChar = Left(strPadChar, 1)
+
+    Dim strMissing As String
+
+    Dim intMissing As Integer
+    intMissing = intMax - Len(strNeedle)
+
+    If intMissing > 0 Then
+        For i = 1 To intMissing
+            strResult = strResult & strPadChar
+        Next
+    End IF
+
+    PadRight = strResult
 End Function
