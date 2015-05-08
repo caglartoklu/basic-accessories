@@ -28,7 +28,7 @@ Public Const MODULES_FILE = "basicaccessories_modules_to_import.txt"
 
 Private Function GetDatabasePath() As String
     ' original in: mdlDatabase.bas
-    GetDatabasePath = CurrentProject.path
+    GetDatabasePath = CurrentProject.Path
 End Function
 
 
@@ -90,7 +90,7 @@ Private Function DetermineEndOfLineChar(ByVal fileName As String) As String
     Dim iVbCr As Long
     Dim iVbLf As Long
 
-    iVbCrLf = InStr(1, fileContent, vbCrlf)
+    iVbCrLf = InStr(1, fileContent, vbCrLf)
     iVbCr = InStr(1, fileContent, vbCr)
     iVbLf = InStr(1, fileContent, vbLf)
 
@@ -107,14 +107,14 @@ Private Function DetermineEndOfLineChar(ByVal fileName As String) As String
     Dim eolChar As String
 
     If iVbCrLf > iVbCr And iVbCrLf > iVbLf Then
-        eolChar = vbCrlf
+        eolChar = vbCrLf
     ElseIf iVbCr > iVbCrLf And iVbCr > iVbLf Then
         eolChar = vbCr
     ElseIf iVbLf > iVbCrLf And iVbLf > iVbCr Then
         eolChar = vbLf
     Else
         ' this is the default
-        eolChar = vbCrlf
+        eolChar = vbCrLf
     End If
 
     DetermineEndOfLineChar = eolChar
@@ -208,21 +208,27 @@ Public Sub ImportModulesFromDisk()
         If Len(Trim(onlyFileName)) > 0 Then
             ' if there is a non empty line
             If IsComment(onlyFileName) = 0 Then
+                On Error Resume Next
                 ' if the line is not a comment
                 moduleName = Left(onlyFileName, Len(onlyFileName) - Len(".bas"))
                 fullFileName = mdlLoader.PathCombine(mdlLoader.GetDatabasePath(), onlyFileName)
 
                 Set component = FindVBComponent(moduleName)
                 If component Is Nothing Then
-                    Debug.Print ("Module does not exist in BasicAccessories:" & moduleName)
+                    Debug.Print ("Module does not exist in BasicAccessories : " & moduleName)
                 Else
-                    Debug.Print ("Module to overwrite in BasicAccessories:" & moduleName)
+                    Debug.Print ("Module to overwrite in BasicAccessories : " & moduleName)
                     VBE.ActiveVBProject.VBComponents.Remove (component)
                 End If
 
                 Set lastModule = VBE.ActiveVBProject.VBComponents.Import(fullFileName)
                 lastModule.Name = moduleName
                 DoCmd.Save acModule, moduleName
+                If Err.Number <> 0 Then
+                    Debug.Print ("Module Error in : " & moduleName & " : " & Err.Number & " : " & Err.Description)
+                End If
+                On Error GoTo 0
+                Err.Clear
             End If
         End If
     Next i
