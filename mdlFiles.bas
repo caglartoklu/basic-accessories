@@ -132,7 +132,6 @@ End Function
 '
 ' Returns:
 ' The end of line character used in the file.
-(ByVal fileName As String) As String
 Private Function DetermineEndOfLineChar(ByVal fileName As String) As String
     Dim fileContent As String
     Dim fileHandle As Integer
