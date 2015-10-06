@@ -156,6 +156,80 @@ Public Sub TestPadRight()
 End Sub
 
 
+' Sub: TestStrPartRemove
+' Tests <StrPartRemove>
+Public Sub TestStrPartRemove()
+    Dim testSubName As String
+    testSubName = "TestStrPartRemove"
+    Call AssertAreEqual(testSubName, "4567", StrPartRemove("1234567", 1, 3))
+    Call AssertAreEqual(testSubName, "", StrPartRemove("1234567", 1, 7))
+    Call AssertAreEqual(testSubName, "123", StrPartRemove("1234567", 4, 7))
+    Call AssertAreEqual(testSubName, "1237", StrPartRemove("1234567", 4, 6))
+    Call AssertAreEqual(testSubName, "1234567", StrPartRemove("1234567", 15, 33))
+    Call AssertAreEqual(testSubName, "234567", StrPartRemove("1234567", 1, 1))
+    Call AssertAreEqual(testSubName, "134567", StrPartRemove("1234567", 2, 2))
+    Call AssertAreEqual(testSubName, "123456", StrPartRemove("1234567", 7, 7))
+End Sub
+
+
+' Sub: TestStrCount
+' Tests <StrCount>
+Public Sub TestStrCount()
+    Dim testSubName As String
+    testSubName = "TestStrCount"
+    Call AssertAreEqual(testSubName, "1", CStr(StrCount("abcdefg", "cd")))
+    Call AssertAreEqual(testSubName, "0", CStr(StrCount("aaa", "b")))
+    Call AssertAreEqual(testSubName, "1", CStr(StrCount("aaa", "aa")))
+    Call AssertAreEqual(testSubName, "3", CStr(StrCount("xaxaxa", "xa")))
+    Call AssertAreEqual(testSubName, "2", CStr(StrCount("xaxax", "xa")))
+    Call AssertAreEqual(testSubName, "2", CStr(StrCount("axaxa", "xa")))
+    Call AssertAreEqual(testSubName, "3", CStr(StrCount("--ab--efg--", "--")))
+    Call AssertAreEqual(testSubName, "6", CStr(StrCount("--ab--efg--", "-")))
+End Sub
+
+
+' Sub: TestLStrip
+' Tests <LStrip>
+Public Sub TestLStrip()
+    Dim testSubName As String
+    testSubName = "TestLStrip"
+    Call AssertAreEqual(testSubName, "abc", LStrip("abc"))
+    Call AssertAreEqual(testSubName, "abc", LStrip(" abc"))
+    Call AssertAreEqual(testSubName, "abc ", LStrip(" abc "))
+    Call AssertAreEqual(testSubName, "a b c ", LStrip(" a b c "))
+    Call AssertAreEqual(testSubName, "a b c ", LStrip(vbCrlf & vbCr & vbLf & vbTab & " a b c "))
+    Call AssertAreEqual(testSubName, "a " & vbTab & " b c ", LStrip(vbCrlf & vbCr & vbLf & vbTab & " a " & vbTab & " b c "))
+End Sub
+
+
+' Sub: TestRStrip
+' Tests <RStrip>
+Public Sub TestRStrip()
+    Dim testSubName As String
+    testSubName = "TestRStrip"
+    Call AssertAreEqual(testSubName, "abc", RStrip("abc"))
+    Call AssertAreEqual(testSubName, "abc", RStrip("abc "))
+    Call AssertAreEqual(testSubName, " abc", RStrip(" abc "))
+    Call AssertAreEqual(testSubName, " a b c", RStrip(" a b c "))
+    Call AssertAreEqual(testSubName, " a b c", RStrip(" a b c " & vbCrlf & vbCr & vbLf & vbTab))
+    Call AssertAreEqual(testSubName, " a " & vbTab & " b c", RStrip(" a " & vbTab & " b c " & vbCrlf & vbCr & vbLf & vbTab))
+End Sub
+
+
+' Sub: TestStrip
+' Tests <Strip>
+Public Sub TestStrip()
+    Dim testSubName As String
+    testSubName = "TestStrip"
+    Call AssertAreEqual(testSubName, "abc", Strip("abc"))
+    Call AssertAreEqual(testSubName, "abc", Strip("abc "))
+    Call AssertAreEqual(testSubName, "abc", Strip(" abc "))
+    Call AssertAreEqual(testSubName, "a b c", Strip(" a b c "))
+    Call AssertAreEqual(testSubName, "a b c", Strip(" a b c " & vbCrlf & vbCr & vbLf & vbTab))
+    Call AssertAreEqual(testSubName, "a " & vbTab & " b c", Strip(" a " & vbTab & " b c " & vbCrlf & vbCr & vbLf & vbTab))
+End Sub
+
+
 ' Sub: RunAllMdlStringsTest
 ' Calls the tests in this module.
 '
@@ -170,4 +244,9 @@ Public Sub RunAllMdlStringsTest()
     Call TestRemoveFromRight()
     Call TestPadLeft()
     Call TestPadRight()
+    Call TestStrPartRemove()
+    Call TestStrCount()
+    Call TestLStrip()
+    Call TestRStrip()
+    Call TestStrip()
 End Sub

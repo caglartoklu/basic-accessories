@@ -164,7 +164,8 @@ End Function
 ' strPadChar - The character to be used for padding.
 ' If the length is longer than 1, only the first character will be used.
 '
-' Returns a copy of strNeedle padded with strPadChar from left.
+' Returns:
+' a copy of strNeedle padded with strPadChar from left.
 Public Function PadLeft(ByVal strNeedle As String, ByVal intMax As Integer, ByVal strPadChar As String) As String
     Dim i As Integer
     Dim strResult As String
@@ -203,7 +204,8 @@ End Function
 ' strPadChar - The character to be used for padding.
 ' If the length is longer than 1, only the first character will be used.
 '
-' Returns a copy of strNeedle padded with strPadChar from right.
+' Returns:
+' a copy of strNeedle padded with strPadChar from right.
 Public Function PadRight(ByVal strNeedle As String, ByVal intMax As Integer, ByVal strPadChar As String) As String
     Dim i As Integer
     Dim strResult As String
@@ -231,3 +233,183 @@ Public Function PadRight(ByVal strNeedle As String, ByVal intMax As Integer, ByV
 
     PadRight = strResult
 End Function
+
+
+' Function: LStrip
+' Strips all the leading whitespace characters from the string.
+' In addition to built-in LTrim() function which removes CrLf,
+' this function removes Cr, Lf, CrLf and Tab characters.
+'
+' Parameters:
+' haystack - the string to be stripped
+'
+' Returns:
+' A copy of haystack without leading whitespace characters.
+Public Function LStrip(ByVal haystack As String) As String
+    Dim result As String
+    result = haystack
+    Dim finished As Boolean
+    finished = False
+    While Not finished
+        finished = True
+        If Left(result, 1) = vbCr Then
+            result = Right(result, Len(result) - 1)
+            finished = False
+        ElseIf Left(result, 1) = vbLf Then
+            result = Right(result, Len(result) - 1)
+            finished = False
+        ElseIf Left(result, 1) = vbCrlf Then
+            result = Right(result, Len(result) - 1)
+            finished = False
+        ElseIf Left(result, 1) = vbTab Then
+            result = Right(result, Len(result) - 1)
+            finished = False
+        End If
+        result = LTrim(result)
+    Wend
+    LStrip = result
+End Function
+
+
+' Function: LStrip
+' Strips all the trailing whitespace characters from the string.
+' In addition to built-in RTrim() function which removes CrLf,
+' this function removes Cr, Lf, CrLf and Tab characters.
+'
+' Parameters:
+' haystack - the string to be stripped
+'
+' Returns:
+' A copy of haystack without trailing whitespace characters.
+Public Function RStrip(ByVal data As String) As String
+    Dim result As String
+    result = data
+    Dim finished As Boolean
+    finished = False
+    While Not finished
+        finished = True
+        If Right(result, 1) = vbCr Then
+            result = Left(result, Len(result) - 1)
+            finished = False
+        ElseIf Right(result, 1) = vbLf Then
+            result = Left(result, Len(result) - 1)
+            finished = False
+        ElseIf Right(result, 1) = vbCrlf Then
+            result = Left(result, Len(result) - 1)
+            finished = False
+        ElseIf Right(result, 1) = vbTab Then
+            result = Left(result, Len(result) - 1)
+            finished = False
+        End If
+        result = RTrim(result)
+    Wend
+    RStrip = result
+End Function
+
+
+' Function: Strip
+' Strips all the leading and trailing whitespace characters from the string.
+' In addition to built-in Trim() function which removes CrLf,
+' this function removes Cr, Lf, CrLf and Tab characters.
+'
+' Parameters:
+' haystack - the string to be stripped
+'
+' Returns:
+' A copy of haystack without leading and trailing whitespace characters.
+Public Function Strip(ByVal haystack As String) As String
+    Strip = LStrip(RStrip(haystack))
+End Function
+
+
+
+' Function StrPartRemove
+' Removes the part of a string.
+'
+' Parameters:
+' haystack - the big string
+' iStart - the start index of the string to be removed
+' iEnd - the end index of the string to be removed
+'
+' The original string does not change, a removed one is returned.
+Public Function StrPartRemove(ByVal haystack As String, ByVal iStart As Long, ByVal iEnd As Long) As String
+    Dim part1 As String
+    Dim part2 As String
+    Dim n As Long
+    Dim result As String
+
+    result = haystack
+
+    If iStart > iEnd Then
+        ' iStart must be smaller than iEnd
+        Dim iTemp As Long
+        iTemp = iStart
+        iStart = iEnd
+        iEnd = iTemp
+    End If
+
+    If iStart < 1 Then
+        iStart = 1
+    End If
+
+    If iEnd < 1 Then
+        iEnd = 1
+    End If
+
+    If iStart > Len(haystack) Then
+        result = haystack
+    Else
+        If iEnd > Len(haystack) Then
+            iEnd = Len(haystack)
+        End If
+
+        n = iStart - 1
+        part1 = Left(haystack, n)
+
+        n = Len(haystack) - iEnd
+        part2 = Right(haystack, n)
+
+        result = part1 & part2
+    End If
+
+
+    StrPartRemove = result
+End Function 'StrPartRemove()
+
+
+' Function StrCount
+' Counts the number of occurrences of needle in haystack and returns the number.
+' This function depends on the function StrPartRemove().
+'
+' Parameters:
+' haystack - the big string
+' needle - the small string
+'
+' Returns:
+' the number of occurrences of needle in haystack and returns the number.
+Public Function StrCount(ByVal haystack As String, ByVal needle As String) As Integer
+    Dim h As Long
+    Dim n As Long
+    Dim posi As Long
+    Dim occurenceCount as Long
+    Dim haystackTemp As String
+    Dim haystack2 As String
+    Dim needle2 As String
+
+    haystack2 = haystack
+    needle2 = needle
+
+    h = Len(haystack2)
+    n = Len(needle2)
+    occurenceCount = 0
+    haystackTemp = haystack2
+
+    posi = InStr(haystackTemp, needle2)
+    While posi > 0
+        occurenceCount = occurenceCount + 1
+        haystackTemp = StrPartRemove(haystackTemp, posi, posi + n - 1)
+        posi = InStr(haystackTemp, needle2)
+    Wend
+
+    StrCount = occurenceCount
+End Function 'StrCount()
