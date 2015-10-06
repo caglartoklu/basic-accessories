@@ -16,6 +16,8 @@
 
 ' mdlArrays.bas
 ' mdlArraysTest.bas
+mdlBooleans.bas
+mdlBooleansTest.bas
 mdlDatabase.bas
 mdlDatabaseTest.bas
 mdlDate.bas
