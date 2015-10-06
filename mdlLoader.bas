@@ -28,7 +28,7 @@ Public Const MODULES_FILE = "basicaccessories_modules_to_import.txt"
 
 Private Function GetDatabasePath() As String
     ' original in: mdlDatabase.bas
-    GetDatabasePath = CurrentProject.Path
+    GetDatabasePath = CurrentProject.path
 End Function
 
 
@@ -57,7 +57,7 @@ End Function
 Private Function IsComment(ByVal haystack As String) As Boolean
     ' original in: mdlStrings.bas
     Dim result As Boolean
-    haystack = Trim(haystack)
+    haystack = Strip(haystack)
     result = False
     If StartsWith(haystack, "'") = True Then
         result = True
@@ -72,6 +72,66 @@ Private Function IsComment(ByVal haystack As String) As Boolean
 End Function
 
 
+Private Function LStrip(ByVal haystack As String) As String
+    ' original in: mdlStrings.bas
+    Dim result As String
+    result = haystack
+    Dim finished As Boolean
+    finished = False
+    While Not finished
+        finished = True
+        If Left(result, 1) = vbCr Then
+            result = Right(result, Len(result) - 1)
+            finished = False
+        ElseIf Left(result, 1) = vbLf Then
+            result = Right(result, Len(result) - 1)
+            finished = False
+        ElseIf Left(result, 1) = vbCrlf Then
+            result = Right(result, Len(result) - 1)
+            finished = False
+        ElseIf Left(result, 1) = vbTab Then
+            result = Right(result, Len(result) - 1)
+            finished = False
+        End If
+        result = LTrim(result)
+    Wend
+    LStrip = result
+End Function
+
+
+Private Function RStrip(ByVal haystack As String) As String
+    ' original in: mdlStrings.bas
+    Dim result As String
+    result = haystack
+    Dim finished As Boolean
+    finished = False
+    While Not finished
+        finished = True
+        If Right(result, 1) = vbCr Then
+            result = Left(result, Len(result) - 1)
+            finished = False
+        ElseIf Right(result, 1) = vbLf Then
+            result = Left(result, Len(result) - 1)
+            finished = False
+        ElseIf Right(result, 1) = vbCrlf Then
+            result = Left(result, Len(result) - 1)
+            finished = False
+        ElseIf Right(result, 1) = vbTab Then
+            result = Left(result, Len(result) - 1)
+            finished = False
+        End If
+        result = RTrim(result)
+    Wend
+    RStrip = result
+End Function
+
+
+Private Function Strip(ByVal haystack As String) As String
+    ' original in: mdlStrings.bas
+    Strip = LStrip(RStrip(haystack))
+End Function
+
+
 Private Function GetPathSeparator() As String
     ' original in: mdlFiles.bas
     GetPathSeparator = Chr(92) ' \
@@ -79,6 +139,7 @@ End Function
 
 
 Private Function DetermineEndOfLineChar(ByVal fileName As String) As String
+    ' original in: mdlFiles.bas
     Dim fileContent As String
     Dim fileHandle As Integer
     fileHandle = FreeFile
@@ -90,7 +151,7 @@ Private Function DetermineEndOfLineChar(ByVal fileName As String) As String
     Dim iVbCr As Long
     Dim iVbLf As Long
 
-    iVbCrLf = InStr(1, fileContent, vbCrLf)
+    iVbCrLf = InStr(1, fileContent, vbCrlf)
     iVbCr = InStr(1, fileContent, vbCr)
     iVbLf = InStr(1, fileContent, vbLf)
 
@@ -107,14 +168,14 @@ Private Function DetermineEndOfLineChar(ByVal fileName As String) As String
     Dim eolChar As String
 
     If iVbCrLf > iVbCr And iVbCrLf > iVbLf Then
-        eolChar = vbCrLf
+        eolChar = vbCrlf
     ElseIf iVbCr > iVbCrLf And iVbCr > iVbLf Then
         eolChar = vbCr
     ElseIf iVbLf > iVbCrLf And iVbLf > iVbCr Then
         eolChar = vbLf
     Else
         ' this is the default
-        eolChar = vbCrLf
+        eolChar = vbCrlf
     End If
 
     DetermineEndOfLineChar = eolChar
@@ -203,15 +264,19 @@ Public Sub ImportModulesFromDisk()
     Dim component As Variant
 
     For i = LBound(arrModules) To UBound(arrModules)
-        onlyFileName = arrModules(i)
+        onlyFileName = Strip(arrModules(i))
+        ' onlyFileName : "mdlBooleans.bas"
 
-        If Len(Trim(onlyFileName)) > 0 Then
+        If Len(Strip(onlyFileName)) > 0 Then
             ' if there is a non empty line
-            If IsComment(onlyFileName) = 0 Then
-                On Error Resume Next
+            If IsComment(onlyFileName) = False Then
                 ' if the line is not a comment
+                On Error Resume Next
                 moduleName = Left(onlyFileName, Len(onlyFileName) - Len(".bas"))
+                ' moduleName -> "mdlBooleans"
+
                 fullFileName = mdlLoader.PathCombine(mdlLoader.GetDatabasePath(), onlyFileName)
+                ' fullFileName -> "C:\Users\myuser\BasicAccessories\mdlBooleans.bas"
 
                 Set component = FindVBComponent(moduleName)
                 If component Is Nothing Then
