@@ -43,8 +43,8 @@ Public Sub AssertAreEqual(ByVal testSubName As String, ByVal expected As Variant
         msg = GetPassMessage() & testSubName
     Else
         msg = GetFailMessage() & testSubName & " - "
-        msg = msg & "  expected : " & expected & vbCrlf
-        msg = msg & "  actual   : " & actual & vbCrlf
+        msg = msg & "  expected : [" & expected & "]" & vbCrlf
+        msg = msg & "  actual   : [" & actual & "]" & vbCrlf
     End If
     Debug.Print(msg)
 End Sub
@@ -61,8 +61,8 @@ Public Sub AssertAreNotEqual(ByVal testSubName As String, ByVal expected As Vari
     Dim msg As String
     If expected = actual Then
         msg = GetFailMessage() & testSubName & " - "
-        msg = msg & "  expected : " & expected & vbCrlf
-        msg = msg & "  actual   : " & actual & vbCrlf
+        msg = msg & "  expected : [" & expected & "]" & vbCrlf
+        msg = msg & "  actual   : [" & actual & "]" & vbCrlf
     Else
         msg = GetPassMessage() & testSubName
     End If
