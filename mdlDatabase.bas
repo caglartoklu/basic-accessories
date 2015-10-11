@@ -133,7 +133,8 @@ Public Function ParseToQueries(ByVal queriesAsString As String) As String()
                 ' not in a string, and ; character is found.
                 ' that means, this is the end of a query.
                 If qIndex = qCapacity Then
-                    ReDim queries(qCapacity + defaultQuerySize)
+                    ReDim Preserve queries(qCapacity + defaultQuerySize)
+                    qCapacity = UBound(queries)
                 End If
                 qIndex = qIndex + 1
                 queries(qIndex) = buffer
