@@ -9,14 +9,14 @@ One of the major goal is to be a boilerplate for Microsoft Access applications.
 The other one is to provide a set of compatible, tested, generic
 [VBA](https://en.wikipedia.org/wiki/Visual_Basic_for_Applications) code
 that can directly be used in other Microsoft Office software.
-The code is compatible with [FreeBASIC](http://freebasic.net/),
+Where possible, the code will compatible with [FreeBASIC](http://freebasic.net/),
 [Visual Basic .NET](https://msdn.microsoft.com/en-us/vstudio/hh388573) and
-[OpenOffice.org BASIC](https://wiki.documentfoundation.org/Documentation/BASIC_Guide)
-where possible.
+[OpenOffice.org BASIC](https://wiki.documentfoundation.org/Documentation/BASIC_Guide).
+
 
 # User Guide
 
-# Usage
+## Usage
 
 * Copy `BasicAccessories.accdb.bin` as `YourNewProject.accdb`
 * Open `YourNewProject.accdb`, launch Visual Basic Editor with `Alt+F11`
@@ -110,7 +110,7 @@ If a new module is added, its name must be defined to this file.
 [documented](http://www.naturaldocs.org/documenting.html) according to
 [Natural Docs](http://www.naturaldocs.org/).
 * All the modules should start with:
-```
+```vbnet
 Option Compare Database
 Option Explicit
 ```
@@ -118,7 +118,7 @@ Option Explicit
 
 ## Generating Documentation
 
-TODO:
+TODO: Generating documentation. (possibly using Natural Docs)
 
 ## Unit Tests
 
@@ -170,9 +170,28 @@ If the name of your module is `MODULENAMEHERE`, the test module should be rename
 
 ## How to add code to an existing module?
 
+TODO: How to add code to an existing module?
+
 ## How to deploy?
 
 TODO: How to deploy
+
+## How to use the modules in another Access file?
+
+* Clone this repository to a folder in your computer.
+* Copy your `.accdb` file to to the folder above.
+* Open your `.accdb` file.t
+* Add a new module `mdlLoader`
+* Copy all the contents of the file `mdlLoader.bas` into `mdlLoader` module.
+* Switch to `Immediate Window`.f
+* Type the following code:
+```vbnet
+Call mdlLoader.ImportModulesFromDisk()
+```
+* This will load all the modules to your `.accdb` file.
+
+Note that you will be bound by the [LICENSE](LICENSE).
+
 
 ## Requirements
 
@@ -188,15 +207,25 @@ That is the only software you need.
 
 # Resources
 
+# Microsoft Access
+* [Office 2013 VBA Documentation](https://www.microsoft.com/en-us/download/details.aspx?id=40326)
+* [Microsoft Access 2013 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=39358)
+
+## FreeBASIC
+* [FreeBASIC Documentation](http://www.freebasic.net/docs)
+* [FreeBASIC Programmer's Guide](http://www.freebasic.net/wiki/wikka.php?wakka=CatPgProgrammer)
+
 ## Natural Docs
-* [http://www.naturaldocs.org/](http://www.naturaldocs.org/)
-* http://www.freebasic.net/forum/viewtopic.php?f=7&t=11442
-* http://www.naturaldocs.org/documenting/walkthrough.html
-* http://www.naturaldocs.org/keywords.html
+* [Natural Docs](http://www.naturaldocs.org/)
+* [Using Natural Docs with FreeBASIC source code](http://www.freebasic.net/forum/viewtopic.php?f=7&t=11442)
+* [Documenting Your Code](http://www.naturaldocs.org/documenting.html)
+* [Natural Docs Walkthrough](http://www.naturaldocs.org/documenting/walkthrough.html)
+* [Natural Docs Keywords](http://www.naturaldocs.org/keywords.html)
 
 # License
 
-Licensed with 2-clause license ("Simplified BSD License" or "FreeBSD License"). See the [LICENSE](LICENSE) file.
+Licensed with 2-clause license ("Simplified BSD License" or "FreeBSD License").
+See the [LICENSE](LICENSE) file.
 
 
 # Legal
