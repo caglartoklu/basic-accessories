@@ -222,9 +222,10 @@ That is the only software you need.
 * [Natural Docs Walkthrough](http://www.naturaldocs.org/documenting/walkthrough.html)
 * [Natural Docs Keywords](http://www.naturaldocs.org/keywords.html)
 
+
 # License
 
-Licensed with 2-clause license ("Simplified BSD License" or "FreeBSD License").
+Licensed under the Apache License, Version 2.0.
 See the [LICENSE](LICENSE) file.
 
 
