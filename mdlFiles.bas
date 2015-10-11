@@ -122,6 +122,46 @@ Public Function ReadTextFile(ByVal fileName As String) As String
 End Function
 
 
+' Sub: WriteTextFileUTF8
+' Writes content to a text file.
+' SaveOptions:
+' https://msdn.microsoft.com/en-us/library/ms676152%28v=vs.85%29.aspx
+'
+' Parameters:
+' fileName - Name of the file to be written.
+' content - The content to be written into the file.
+Public Sub WriteTextFileUTF8(ByVal fileName As String, ByVal content As String)
+    Const adSaveCreateNotExist = 1
+    Const adSaveCreateOverWrite = 2
+    Dim objStream
+    Set objStream = CreateObject("ADODB.Stream")
+    objStream.CharSet = "utf-8"
+    objStream.Open
+    objStream.WriteText content
+    objStream.SaveToFile fileName, adSaveCreateOverWrite
+End Sub
+
+
+' Sub: ReadTextFileUTF8
+' Returns all the contents of a text file.
+'
+' Parameters:
+' fileName - Name of the file to be read.
+'
+' Returns:
+' Content of the specified file.
+Public Function ReadTextFileUTF8(ByVal fileName As String) As String
+    Dim content As String
+    Dim objStream As Object
+    Set objStream = CreateObject("ADODB.Stream")
+    objStream.CharSet = "utf-8"
+    objStream.Open
+    objStream.LoadFromFile(fileName)
+    content = objStream.ReadText()
+    ReadTextFileUTF8 = content
+End Function
+
+
 ' Function: DetermineEndOfLineChar
 ' Determines the end of line character used in the file.
 ' If more than one end of line character has been used in the file,
