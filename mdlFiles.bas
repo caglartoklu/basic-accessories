@@ -213,3 +213,42 @@ Private Function DetermineEndOfLineChar(ByVal fileName As String) As String
 
     DetermineEndOfLineChar = eolChar
 End Function
+
+
+' Sub: CreateFolderRecursively
+' Creates folders recursively.
+' It is compatible with Windows Shared folders.
+' This function does not return throw error.
+' It is advised to check the folder after calling this sub.
+'
+' Parameters:
+' folderPath - the full path of the folder to be created
+Public Sub CreateFolderRecursively(ByVal folderPath As String)
+    On Error Resume Next
+    Dim folderPathTemp As String
+    folderPathTemp = folderPath
+    
+    Dim pathSeparator As String
+    pathSeparator = GetPathSeparator()
+    Dim windowsSharedPathStarter As String
+    windowsSharedPathStarter = pathSeparator & pathSeparator
+    
+    Dim folderPathBase As String
+    folderPathBase = ""
+    If StartsWith(folderPath, windowsSharedPathStarter) Then
+        folderPathBase = windowsSharedPathStarter
+        folderPath = RemoveFromLeft(folderPath, Len(windowsSharedPathStarter))
+    End If
+    
+    Dim items() As String
+    items = Split(folderPath, pathSeparator)
+
+    Dim newFolderPath As String
+    newFolderPath = folderPathBase
+    Dim i As Integer
+    For i = LBound(items) To UBound(items)
+        newFolderPath = newFolderPath + items(i) + pathSeparator
+        MkDir (newFolderPath)
+    Next i
+    On Error GoTo 0
+End Sub
