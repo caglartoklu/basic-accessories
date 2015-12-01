@@ -79,6 +79,57 @@ Public Function CreateQueryObject(ByVal queryDefName As String, ByVal sql As Str
 End Function
 
 
+' Function: GetQueryDefByName
+' Returns a QueryDef object matched by name.
+'
+' Parameters:
+' queryDefName - Name of the query
+'
+' Returns:
+' a QueryDef object matched by name.
+Public Function GetQueryDefByName(ByVal queryDefName As String) As QueryDef
+    Dim element As QueryDef
+    Dim result As QueryDef
+    Set result = Nothing
+    For Each element In CurrentDb.QueryDefs
+        If element.Name = queryDefName Then
+            Set result = element
+            Exit For
+        End If
+    Next
+    Set GetQueryDefByName = result
+End Function
+
+
+' Function: GetQueryOfQueryDef
+' Returns the query of QueryDef object as a string.
+'
+' Parameters:
+' queryDefName - Name of the query
+'
+' Returns:
+' the query of QueryDef object as a string.
+Public Function GetQueryOfQueryDef(ByVal queryDefName As String) As String
+    Dim qDef As QueryDef
+    Set qDef = GetQueryDefByName(queryDefName)
+    ' TODO: 6 check if the query can not be found.
+    GetQueryOfQueryDef = qDef.sql
+End Function
+
+
+' Function: SetQueryOfQueryDef
+' Sets the query of QueryDef object from a string.
+'
+' Parameters:
+' queryDefName - Name of the query
+Public Sub SetQueryOfQueryDef(ByVal queryDefName As String, ByVal query As String)
+    Dim qDef As QueryDef
+    Set qDef = GetQueryDefByName(queryDefName)
+    ' TODO: 6 check if the query can not be found.
+    qDef.sql = query
+End Sub
+
+
 ' Sub: DeleteQuery
 ' Deletes the specified query if it exists.
 '
@@ -204,3 +255,16 @@ Public Sub ExecuteNonQueriesFromString(ByVal data As String)
     Next i
 End Sub
 
+
+' Sub: DeleteFromTable
+' DELETEs the data from the specified table.
+'
+' Parameters:
+' tableName - name of the table
+Public Sub DeleteFromTable(ByVal tableName As String)
+    Dim query As String
+    query = "DELETE FROM " & tableName
+    DoCmd.SetWarnings False
+    DoCmd.RunSQL query
+    DoCmd.SetWarnings True
+End Sub
