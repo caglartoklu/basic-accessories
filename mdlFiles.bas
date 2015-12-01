@@ -302,3 +302,17 @@ Public Sub ExportAllCode(ByVal exportFolder As String)
         End If
     Next
 End Sub
+
+
+' Sub: OpenFolderInExplorer
+' Opens a folder in Windows Explorer.
+'
+' Parameters:
+' folderPath - the full path of the folder to be created
+Public Sub OpenFolderInExplorer(ByVal folderPath As String)
+    Dim cmd As String
+    Dim quote As String
+    quote = Chr(34)
+    cmd = "explorer " & quote & folderPath & quote
+    Call Shell(cmd, vbNormalNoFocus)
+End Sub
