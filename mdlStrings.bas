@@ -189,7 +189,7 @@ Public Function PadLeft(ByVal strNeedle As String, ByVal intMax As Integer, ByVa
         For i = 1 To intMissing
             strResult = strPadChar & strResult
         Next
-    End IF
+    End If
 
     PadLeft = strResult
 End Function
@@ -229,7 +229,7 @@ Public Function PadRight(ByVal strNeedle As String, ByVal intMax As Integer, ByV
         For i = 1 To intMissing
             strResult = strResult & strPadChar
         Next
-    End IF
+    End If
 
     PadRight = strResult
 End Function
@@ -258,7 +258,7 @@ Public Function LStrip(ByVal haystack As String) As String
         ElseIf Left(result, 1) = vbLf Then
             result = Right(result, Len(result) - 1)
             finished = False
-        ElseIf Left(result, 1) = vbCrlf Then
+        ElseIf Left(result, 1) = vbCrLf Then
             result = Right(result, Len(result) - 1)
             finished = False
         ElseIf Left(result, 1) = vbTab Then
@@ -294,7 +294,7 @@ Public Function RStrip(ByVal data As String) As String
         ElseIf Right(result, 1) = vbLf Then
             result = Left(result, Len(result) - 1)
             finished = False
-        ElseIf Right(result, 1) = vbCrlf Then
+        ElseIf Right(result, 1) = vbCrLf Then
             result = Left(result, Len(result) - 1)
             finished = False
         ElseIf Right(result, 1) = vbTab Then
@@ -391,7 +391,7 @@ Public Function StrCount(ByVal haystack As String, ByVal needle As String) As In
     Dim h As Long
     Dim n As Long
     Dim posi As Long
-    Dim occurenceCount as Long
+    Dim occurenceCount As Long
     Dim haystackTemp As String
     Dim haystack2 As String
     Dim needle2 As String
@@ -413,3 +413,17 @@ Public Function StrCount(ByVal haystack As String, ByVal needle As String) As In
 
     StrCount = occurenceCount
 End Function 'StrCount()
+
+
+' Function SafeSql
+' Replaces bad characters in the SQL statement.
+'
+' Parameters:
+' sql - an sql statement with possibly bad characters
+'
+' Returns:
+' A safe SQL statement without bad characters.
+Public Function SafeSql(ByVal sql As String) As String
+    sql = Replace(sql, "'", "''")
+    SafeSql = sql
+End Function 'SafeSql()

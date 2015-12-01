@@ -230,6 +230,17 @@ Public Sub TestStrip()
 End Sub
 
 
+' Sub: TestSafeSql
+' Tests <SafeSql>
+Public Sub TestSafeSql()
+    Dim testSubName As String
+    testSubName = "TestSafeSql"
+    Call AssertAreEqual(testSubName, "abc", SafeSql("abc"))
+    Call AssertAreEqual(testSubName, "abc ", SafeSql("abc "))
+    Call AssertAreEqual(testSubName, " a''b''''c ", SafeSql(" a'b''c "))
+End Sub
+
+
 ' Sub: RunAllMdlStringsTest
 ' Calls the tests in this module.
 '
@@ -249,4 +260,5 @@ Public Sub RunAllMdlStringsTest()
     Call TestLStrip()
     Call TestRStrip()
     Call TestStrip()
+    Call TestSafeSql()
 End Sub
