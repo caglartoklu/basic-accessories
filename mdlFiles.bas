@@ -227,19 +227,19 @@ Public Sub CreateFolderRecursively(ByVal folderPath As String)
     On Error Resume Next
     Dim folderPathTemp As String
     folderPathTemp = folderPath
-    
+
     Dim pathSeparator As String
     pathSeparator = GetPathSeparator()
     Dim windowsSharedPathStarter As String
     windowsSharedPathStarter = pathSeparator & pathSeparator
-    
+
     Dim folderPathBase As String
     folderPathBase = ""
     If StartsWith(folderPath, windowsSharedPathStarter) Then
         folderPathBase = windowsSharedPathStarter
         folderPath = RemoveFromLeft(folderPath, Len(windowsSharedPathStarter))
     End If
-    
+
     Dim items() As String
     items = Split(folderPath, pathSeparator)
 
@@ -251,4 +251,54 @@ Public Sub CreateFolderRecursively(ByVal folderPath As String)
         MkDir (newFolderPath)
     Next i
     On Error GoTo 0
+End Sub
+
+
+' Sub: ExportAllCode
+' Exports all the code modules from the project to separate files.
+' To call this sub, type the following in Intermediate window:
+' Call mdlFiles.ExportAllCode("")
+'
+' Parameters:
+' exportFolder - the target folder to export the files.
+Public Sub ExportAllCode(ByVal exportFolder As String)
+    Const ClassModuleCode = 2  ' vbext_ct_ClassModule
+    Const DocumentCode = 100  ' vbext_ct_Document
+    Const MSFormCode = 3  ' vbext_ct_MSForm
+    Const StdModuleCode = 1  ' vbext_ct_StdModule
+
+    exportFolder = Strip(exportFolder)
+    If Strip(exportFolder) = "" Then
+        ' No folder is specified.
+        ' Use a default folder <CurrentProject.path>\export\
+        exportFolder = PathCombine(CurrentProject.path, "export")
+    ElseIf Strip(exportFolder) = "." Then
+        ' Use a default folder <CurrentProject.path>\
+        exportFolder = CurrentProject.path
+    End If
+
+    ' make sure the target export folder exists
+    Call CreateFolderRecursively(exportFolder)
+
+    Dim component As Variant
+    Dim extension As String
+    For Each component In VBE.ActiveVBProject.VBComponents
+        extension = ".bas"  ' default
+        If component.Type = ClassModuleCode Then
+            extension = ".cls"
+        ElseIf component.Type = DocumentCode Then
+            extension = ".bas"
+        ElseIf component.Type = MSFormCode Then
+            extension = ".frm"
+        ElseIf component.Type = StdModuleCode Then
+            extension = ".bas"
+        End If
+
+        If extension <> "" Then
+            Dim exportFileName As String
+            exportFileName = PathCombine(exportFolder, component.Name & extension)
+            Debug.Print "Export file : "; exportFileName
+            component.Export fileName:=exportFileName
+        End If
+    Next
 End Sub
