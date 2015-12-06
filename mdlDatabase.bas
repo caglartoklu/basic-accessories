@@ -21,6 +21,65 @@ Public Function GetDatabasePath() As String
 End Function
 
 
+' Function: GetDatabaseName
+'
+' Returns:
+' The name of the database, such as "MainProject.accdb"
+Public Function GetDatabaseName() As String
+    ' MainProject.accdb
+    GetDatabaseName = CurrentProject.Name
+End Function
+
+
+' Function: GetBackendProjectName
+' Returns a possible backend name for split database architecture.
+' If suffix is "DataBE" then the file name would be:
+' MyProjectDataBE.accdb
+'
+' Parameters:
+' suffix - string, the suffix to be added to the current project name just before the extension.
+'
+' Returns:
+' Only the file name of the backend database, such as "MyProjectDataBE.accdb"
+Public Function GetBackendProjectName(ByVal suffix As String)
+    ' TODO: 5 unit test for GetBackendProjectName
+    If Strip(suffix) = "" Then
+        ' do not let the the software to be without suffix.
+        ' if there would be no suffix, the table would connect to front end database,
+        ' which is not preferred.
+        ' instead, provide a default suffix name.
+        suffix = "DataBackEnd"
+    End If
+
+    Dim projectName As String
+    projectName = CurrentProject.Name
+
+    Dim positionOfExtension As Integer
+    positionOfExtension = InStr(LCase(projectName), ".accdb")
+
+    Dim fileNameWithoutExtension As String
+    fileNameWithoutExtension = Left(projectName, positionOfExtension - 1)
+
+    GetBackendProjectName = fileNameWithoutExtension & suffix & ".accdb"
+End Function
+
+
+' Function: GetBackendProjectPath
+' Returns the full path for a possible backend file for split database architecture.
+' If suffix is "DataBE" then the file name would be:
+' MyProjectDataBE.accdb
+'
+' Parameters:
+' suffix - string, the suffix to be added to the current project name just before the extension.
+'
+' Returns:
+' Only the file name of the backend database, such as "MyProjectDataBE.accdb"
+Public Function GetBackendProjectPath(ByVal suffix As String)
+    ' TODO: 5 unit test for GetBackendProjectPath
+    GetBackendProjectPath = GetDatabasePath() & "\" & GetBackendProjectName(suffix)
+End Function
+
+
 ' Function: TableExists
 ' Returns True if the table exists, False otherwise.
 '
@@ -30,6 +89,7 @@ End Function
 ' Returns:
 ' True if the table exists, False otherwise.
 Public Function TableExists(ByVal tableName As String) As Boolean
+    ' TODO: 6 is it possible to make it faster directly using TableDefs("xxx")?
     Dim element As TableDef
     Dim result As Boolean
     result = False
@@ -43,6 +103,19 @@ Public Function TableExists(ByVal tableName As String) As Boolean
 End Function
 
 
+' Function: GetTableDefByName
+' Returns the TableDef object for the specified table name.
+'
+' Parameters:
+' tableName - Name of the table
+'
+' Returns:
+' the TableDef object for the specified table name.
+Public Function GetTableDefByName(ByVal tableName As String) As TableDef
+    Set GetTableDefByName = CurrentDb.TableDefs(tableName)
+End Function
+
+
 ' Function: QueryExists
 ' Returns True if the query exists, False otherwise.
 '
@@ -52,6 +125,7 @@ End Function
 ' Returns:
 ' True if the query exists, False otherwise.
 Public Function QueryExists(ByVal queryName As String) As Boolean
+    ' TODO: 6 is it possible to make it faster directly using QueryDefs("xxx")?
     Dim element As QueryDef
     Dim result As Boolean
     result = False
@@ -88,6 +162,7 @@ End Function
 ' Returns:
 ' a QueryDef object matched by name.
 Public Function GetQueryDefByName(ByVal queryDefName As String) As QueryDef
+    ' TODO: 5 implement it LIKE GetTableDefByName, without a loop
     Dim element As QueryDef
     Dim result As QueryDef
     Set result = Nothing
@@ -267,4 +342,92 @@ Public Sub DeleteFromTable(ByVal tableName As String)
     DoCmd.SetWarnings False
     DoCmd.RunSQL query
     DoCmd.SetWarnings True
+End Sub
+
+
+' Sub: DebugPrintTableConnections
+' Prints the table name and the database covering it to the immediate window.
+' This function is for debugging purposes.
+' Type the following in the immediate window to call this sub:
+' | Call mdlDatabase.DebugPrintTableConnections()
+Public Sub DebugPrintTableConnections()
+    Dim currentTableDef As TableDef
+    For Each currentTableDef In CurrentDb.TableDefs
+        Dim tableConnection As String
+        tableConnection = currentTableDef.Connect
+        If Len(tableConnection) > 0 Then
+            Debug.Print currentTableDef.SourceTableName & " | " & currentTableDef.Connect
+            ' Table1 | ;DATABASE=C:\path\to\my\projects\myproject\DatabaseBackend.accdb
+        End If
+    Next
+End Sub
+
+
+' Sub: ConnectTable
+' Connects the table to another data source by changing its connection string.
+' This sub is mostly used in split database architecture.
+' It can be called from Autoexec macro or form load events.
+' A possible usage is as follows:
+' | Dim backendAccdbFilePath As String
+' | backendAccdbFilePath = GetBackendProjectPath("DataBackEnd")
+' | mdlDatabase.ConnectTable("Table1", backendAccdbFilePath)
+'
+' Parameters:
+' tableName - name of the table
+' backendAccdbFilePath - the full path to the access database file. This will be the data backend file for most cases.
+' Note that if the full path is not specified, Access will check the user documents
+' directory, which is rarely what is required.
+Public Sub ConnectTable(ByVal tableName As String, ByVal backendAccdbFilePath As String)
+    Dim currentTableDef As TableDef
+    For Each currentTableDef In CurrentDb.TableDefs
+        Dim currentTableName As String
+        currentTableName = currentTableDef.SourceTableName
+        If LCase(Strip(currentTableName)) = LCase(Strip(tableName)) Then
+            Dim newConnectionString As String
+            ' this will be the new connectionString:
+            newConnectionString = ";DATABASE=" & backendAccdbFilePath
+            ' Debug.Print (newConnectionString)
+            ' ;DATABASE=C:\path\to\my\projects\myproject\MyProjectData.accdb
+            If newConnectionString <> currentTableDef.Connect Then
+                currentTableDef.Connect = newConnectionString
+                currentTableDef.RefreshLink
+            End If
+        End If
+    Next
+End Sub
+
+
+' Sub: ConnectAllTables
+' Connects all the tables to another data source by changing its connection string.
+' This sub is mostly used in split database architecture.
+' It can be called from Autoexec macro or form load events.
+' A possible usage is as follows:
+' | Dim backendAccdbFilePath As String
+' | backendAccdbFilePath = GetBackendProjectPath("DataBackEnd")
+' | mdlDatabase.ConnectAllTables(backendAccdbFilePath)
+'
+' Parameters:
+' backendAccdbFilePath - the full path to the access database file. This will be the data backend file for most cases.
+' Note that if the full path is not specified, Access will check the user documents
+' directory, which is rarely what is required.
+Public Sub ConnectAllTables(ByVal backendAccdbFilePath As String)
+    Dim currentTableDef As TableDef
+    For Each currentTableDef In CurrentDb.TableDefs
+        ' Note that Access has also its own system tables.
+        ' Their connection link is empty string.
+        ' To avoid relinking them, the following condition is checked.
+        If Len(currentTableDef.Connect) > 0 Then
+            Dim currentTableName As String
+            currentTableName = currentTableDef.SourceTableName
+            Dim newConnectionString As String
+            ' this will be the new connectionString:
+            newConnectionString = ";DATABASE=" & backendAccdbFilePath
+            Debug.Print (newConnectionString)
+            ' ;DATABASE=C:\path\to\my\projects\myproject\MyProjectData.accdb
+            If newConnectionString <> currentTableDef.Connect Then
+                currentTableDef.Connect = newConnectionString
+                currentTableDef.RefreshLink
+            End If
+        End If
+    Next
 End Sub

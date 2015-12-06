@@ -24,6 +24,23 @@ Public Sub TestGetDatabasePath()
 End Sub
 
 
+' Sub: TestGetDatabaseName
+' Tests <GetDatabaseName>
+' It ensures that the returned value Is a file name without path info.
+Public Sub TestGetDatabaseName()
+    Dim testSubName As String
+    testSubName = "TestGetDatabaseName"
+
+    Dim databaseName As String
+    databaseName = GetDatabaseName()
+
+    Call AssertTrue(testSubName, EndsWith(LCase(databaseName), ".accdb"))
+    Call AssertFalse(testSubName, StartsWith(LCase(databaseName), ".accdb"))
+    Call AssertAreEqual(testSubName, 0, StrCount(databaseName, "/"))
+    Call AssertAreEqual(testSubName, 0, StrCount(databaseName, "\"))
+End Sub
+
+
 ' Sub: TestTableExists
 ' Tests <TableExists>
 Public Sub TestTableExists()
@@ -67,6 +84,7 @@ End Sub
 ' <RunAllUnitTests>
 Public Sub RunAllMdlDatabaseTest()
     Call TestGetDatabasePath
+    Call TestGetDatabaseName
     Call TestTableExists
     Call TestQueryExists
     Call TestCreateQueryObject
