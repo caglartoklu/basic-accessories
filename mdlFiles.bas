@@ -314,5 +314,5 @@ Public Sub OpenFolderInExplorer(ByVal folderPath As String)
     Dim quote As String
     quote = Chr(34)
     cmd = "explorer " & quote & folderPath & quote
-    Call Shell(cmd, vbNormalNoFocus)
+    Call Shell(cmd, vbNormalFocus)
 End Sub
