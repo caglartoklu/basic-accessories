@@ -263,6 +263,7 @@ Public Sub ImportModulesFromDisk()
     Dim lastModule As Variant
     Dim component As Variant
 
+    Err.Clear
     For i = LBound(arrModules) To UBound(arrModules)
         onlyFileName = Strip(arrModules(i))
         ' onlyFileName : "mdlBooleans.bas"
@@ -287,8 +288,10 @@ Public Sub ImportModulesFromDisk()
                 End If
 
                 Set lastModule = VBE.ActiveVBProject.VBComponents.Import(fullFileName)
-                lastModule.Name = moduleName
-                DoCmd.Save acModule, moduleName
+                If Err.Number = 0 Then
+                    lastModule.Name = moduleName
+                    DoCmd.Save acModule, moduleName
+                End If
                 If Err.Number <> 0 Then
                     Debug.Print ("Module Error in : " & moduleName & " : " & Err.Number & " : " & Err.Description)
                 End If
