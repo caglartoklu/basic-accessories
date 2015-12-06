@@ -14,7 +14,7 @@ Option Explicit
 ' Returns:
 ' the path separator of the operating system, \ for Windows.
 Public Function GetPathSeparator() As String
-    GetPathSeparator = CHR(92) ' \
+    GetPathSeparator = Chr(92) ' \
 End Function
 
 
@@ -115,7 +115,7 @@ Public Function ReadTextFile(ByVal fileName As String) As String
     content = ""
     While Not EOF(fileHandle)
         Line Input #fileHandle, currentLine
-        content = content & currentLine & vbCrLf
+        content = content & currentLine & vbCrlf
     Wend
     Close #fileHandle
     ReadTextFile = content
@@ -156,7 +156,7 @@ Public Function ReadTextFileUTF8(ByVal fileName As String) As String
     Set objStream = CreateObject("ADODB.Stream")
     objStream.CharSet = "utf-8"
     objStream.Open
-    objStream.LoadFromFile(fileName)
+    objStream.LoadFromFile (fileName)
     content = objStream.ReadText()
     ReadTextFileUTF8 = content
 End Function

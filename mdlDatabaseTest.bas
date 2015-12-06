@@ -17,9 +17,9 @@ Public Sub TestGetDatabasePath()
     Dim databasePath As String
     databasePath = GetDatabasePath()
     Dim position As Integer
-    position = Instr(databasePath, ":")
+    position = InStr(databasePath, ":")
     Call AssertTrue(testSubName, position > 0)
-    position = Instr(databasePath, GetPathSeparator())
+    position = InStr(databasePath, GetPathSeparator())
     Call AssertTrue(testSubName, position > 0)
 End Sub
 
@@ -66,9 +66,9 @@ End Sub
 ' See also:
 ' <RunAllUnitTests>
 Public Sub RunAllMdlDatabaseTest()
-    Call TestGetDatabasePath()
-    Call TestTableExists()
-    Call TestQueryExists()
-    Call TestCreateQueryObject()
-    Call TestDeleteQuery()
+    Call TestGetDatabasePath
+    Call TestTableExists
+    Call TestQueryExists
+    Call TestCreateQueryObject
+    Call TestDeleteQuery
 End Sub

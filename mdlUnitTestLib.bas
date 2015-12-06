@@ -46,7 +46,7 @@ Public Sub AssertAreEqual(ByVal testSubName As String, ByVal expected As Variant
         msg = msg & "  expected : [" & expected & "]" & vbCrlf
         msg = msg & "  actual   : [" & actual & "]" & vbCrlf
     End If
-    Debug.Print(msg)
+    Debug.Print (msg)
 End Sub
 
 
@@ -66,7 +66,7 @@ Public Sub AssertAreNotEqual(ByVal testSubName As String, ByVal expected As Vari
     Else
         msg = GetPassMessage() & testSubName
     End If
-    Debug.Print(msg)
+    Debug.Print (msg)
 End Sub
 
 
@@ -85,7 +85,7 @@ Public Sub AssertTrue(ByVal testSubName As String, ByVal actual As Boolean)
         msg = msg & "  expected : True" & vbCrlf
         msg = msg & "  actual   : " & actual & vbCrlf
     End If
-    Debug.Print(msg)
+    Debug.Print (msg)
 End Sub
 
 
@@ -104,7 +104,7 @@ Public Sub AssertFalse(ByVal testSubName As String, ByVal actual As Boolean)
         msg = msg & "  expected : False" & vbCrlf
         msg = msg & "  actual   : " & actual & vbCrlf
     End If
-    Debug.Print(msg)
+    Debug.Print (msg)
 End Sub
 
 
@@ -148,5 +148,5 @@ Public Sub AssertAreArraysEqual(ByVal testSubName As String, ByRef arrExpected()
         msg = msg & "  expected LBound : " & LBound(arrExpected) & vbCrlf
         msg = msg & "  actual   LBound : " & LBound(arrActual) & vbCrlf
     End If
-    Debug.Print(msg)
+    Debug.Print (msg)
 End Sub

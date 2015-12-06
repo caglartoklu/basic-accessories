@@ -247,18 +247,18 @@ End Sub
 ' See also:
 ' <RunAllUnitTests>
 Public Sub RunAllMdlStringsTest()
-    Call TestStartsWith()
-    Call TestEndsWith()
-    Call TestIsComment()
-    Call TestRandomString()
-    Call TestRemoveFromLeft()
-    Call TestRemoveFromRight()
-    Call TestPadLeft()
-    Call TestPadRight()
-    Call TestStrPartRemove()
-    Call TestStrCount()
-    Call TestLStrip()
-    Call TestRStrip()
-    Call TestStrip()
-    Call TestSafeSql()
+    Call TestStartsWith
+    Call TestEndsWith
+    Call TestIsComment
+    Call TestRandomString
+    Call TestRemoveFromLeft
+    Call TestRemoveFromRight
+    Call TestPadLeft
+    Call TestPadRight
+    Call TestStrPartRemove
+    Call TestStrCount
+    Call TestLStrip
+    Call TestRStrip
+    Call TestStrip
+    Call TestSafeSql
 End Sub

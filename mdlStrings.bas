@@ -258,7 +258,7 @@ Public Function LStrip(ByVal haystack As String) As String
         ElseIf Left(result, 1) = vbLf Then
             result = Right(result, Len(result) - 1)
             finished = False
-        ElseIf Left(result, 1) = vbCrLf Then
+        ElseIf Left(result, 1) = vbCrlf Then
             result = Right(result, Len(result) - 1)
             finished = False
         ElseIf Left(result, 1) = vbTab Then
@@ -294,7 +294,7 @@ Public Function RStrip(ByVal data As String) As String
         ElseIf Right(result, 1) = vbLf Then
             result = Left(result, Len(result) - 1)
             finished = False
-        ElseIf Right(result, 1) = vbCrLf Then
+        ElseIf Right(result, 1) = vbCrlf Then
             result = Left(result, Len(result) - 1)
             finished = False
         ElseIf Right(result, 1) = vbTab Then

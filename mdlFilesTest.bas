@@ -77,10 +77,10 @@ End Sub
 ' See also:
 ' <RunAllUnitTests>
 Public Sub RunAllMdlFilesTest()
-    Call TestPathCombine()
-    Call TestDirName()
-    Call TestFileExists()
-    Call TestDeleteFileIfExists()
-    Call TestWriteTextFile()
-    Call TestReadTextFile()
+    Call TestPathCombine
+    Call TestDirName
+    Call TestFileExists
+    Call TestDeleteFileIfExists
+    Call TestWriteTextFile
+    Call TestReadTextFile
 End Sub

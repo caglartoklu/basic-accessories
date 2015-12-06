@@ -12,9 +12,9 @@ Option Explicit
 ' Sub: RunAllUnitTests
 ' Executes the unit test modules causing all the unit tests to be executed.
 Public Sub RunAllUnitTests()
-    Call RunAllMdlBooleansTest()
-    Call RunAllMdlDatabaseTest()
-    Call RunAllMdlDateTest()
-    Call RunAllMdlFilesTest()
-    Call RunAllMdlStringsTest()
+    Call RunAllMdlBooleansTest
+    Call RunAllMdlDatabaseTest
+    Call RunAllMdlDateTest
+    Call RunAllMdlFilesTest
+    Call RunAllMdlStringsTest
 End Sub

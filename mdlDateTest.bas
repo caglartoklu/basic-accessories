@@ -58,8 +58,8 @@ End Sub
 ' See also:
 ' <RunAllUnitTests>
 Public Sub RunAllMdlDateTest()
-    Call TestFirstMomentOfTheDay()
-    Call TestLastMomentOfTheDay()
-    Call TestProperDateTimeDetailed()
-    Call TestProperDateTime()
+    Call TestFirstMomentOfTheDay
+    Call TestLastMomentOfTheDay
+    Call TestProperDateTimeDetailed
+    Call TestProperDateTime
 End Sub
