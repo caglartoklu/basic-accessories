@@ -431,3 +431,121 @@ Public Sub ConnectAllTables(ByVal backendAccdbFilePath As String)
         End If
     Next
 End Sub
+
+
+' Sub: AddPrefixToAllTables
+' Adds a prefix to all table names.
+' If the table name has the prefix already, it will remain unchanged.
+'
+' Parameters:
+' prefix - the string to be added to the beginning of the table name
+' simulationMode - The operation will be effective if and only if this is True
+Public Sub AddPrefixToAllTables(ByVal prefix As String, ByVal simulationMode As Boolean)
+    Dim currentTableDef As TableDef
+    For Each currentTableDef In CurrentDb.TableDefs
+        ' Note that Access has also its own system tables.
+        ' Their connection link is empty string.
+        ' To avoid relinking them, the following condition is checked.
+        If Len(currentTableDef.Connect) > 0 Then
+            Dim currentTableName As String
+            currentTableName = currentTableDef.name
+            If Not StartsWith(currentTableName, prefix) Then
+                Dim newTableName As String
+                newTableName = prefix & currentTableName
+                Debug.Print (currentTableName & " -> " & newTableName)
+                If simulationMode Then
+                    currentTableDef.name = newTableName
+                End If
+            End If
+        End If
+    Next
+End Sub
+
+
+' Sub: RemovePrefixFromAllTables
+' Removes a prefix from all table names.
+' If the table name does not have the prefix, it will remain unchanged.
+' Can be used to remove automated names like "dbo_"
+'
+' Parameters:
+' prefix - the string to be removed from the beginning of the table name
+' simulationMode - The operation will be effective if and only if this is True
+Public Sub RemovePrefixFromAllTables(ByVal prefix As String, ByVal simulationMode As Boolean)
+    ' Call RemovePrefixFromAllTables("dbo_")
+    Dim currentTableDef As TableDef
+    For Each currentTableDef In CurrentDb.TableDefs
+        ' Note that Access has also its own system tables.
+        ' Their connection link is empty string.
+        ' To avoid relinking them, the following condition is checked.
+        If Len(currentTableDef.Connect) > 0 Then
+            Dim currentTableName As String
+            currentTableName = currentTableDef.name
+            If StartsWith(currentTableName, prefix) Then
+                Dim newTableName As String
+                newTableName = RemoveFromLeftIfStartsWith(currentTableName, prefix)
+                Debug.Print (currentTableName & " -> " & newTableName)
+                If simulationMode Then
+                    currentTableDef.name = newTableName
+                End If
+            End If
+        End If
+    Next
+End Sub
+
+
+' Sub: AddSuffixToAllTables
+' Adds a suffix to all table names.
+' If the table name has the suffix already, it will remain unchanged.
+'
+' Parameters:
+' suffix - the string to be added to the end of the table name
+' simulationMode - The operation will be effective if and only if this is True
+Public Sub AddSuffixToAllTables(ByVal suffix As String, ByVal simulationMode As Boolean)
+    Dim currentTableDef As TableDef
+    For Each currentTableDef In CurrentDb.TableDefs
+        ' Note that Access has also its own system tables.
+        ' Their connection link is empty string.
+        ' To avoid relinking them, the following condition is checked.
+        If Len(currentTableDef.Connect) > 0 Then
+            Dim currentTableName As String
+            currentTableName = currentTableDef.name
+            If Not EndsWith(currentTableName, suffix) Then
+                Dim newTableName As String
+                newTableName = currentTableName & suffix
+                Debug.Print (currentTableName & " -> " & newTableName)
+                If simulationMode Then
+                    currentTableDef.name = newTableName
+                End If
+            End If
+        End If
+    Next
+End Sub
+
+
+' Sub: RemoveSuffixFromAllTables
+' Removes a suffix to all table names.
+' If the table name has the suffix already, it will remain unchanged.
+'
+' Parameters:
+' suffix - the string to be added to the end of the table name
+' simulationMode - The operation will be effective if and only if this is True
+Public Sub RemoveSuffixFromAllTables(ByVal suffix As String, ByVal simulationMode As Boolean)
+    Dim currentTableDef As TableDef
+    For Each currentTableDef In CurrentDb.TableDefs
+        ' Note that Access has also its own system tables.
+        ' Their connection link is empty string.
+        ' To avoid relinking them, the following condition is checked.
+        If Len(currentTableDef.Connect) > 0 Then
+            Dim currentTableName As String
+            currentTableName = currentTableDef.name
+            If EndsWith(currentTableName, suffix) Then
+                Dim newTableName As String
+                newTableName = RemoveFromRightIfEndsWith(currentTableName, suffix)
+                Debug.Print (currentTableName & " -> " & newTableName)
+                If simulationMode Then
+                    currentTableDef.name = newTableName
+                End If
+            End If
+        End If
+    Next
+End Sub
