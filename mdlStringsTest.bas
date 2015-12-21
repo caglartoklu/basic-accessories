@@ -106,6 +106,32 @@ Public Sub TestRemoveFromRight()
 End Sub
 
 
+' Sub: TestRemoveFromLeftIfStartsWith
+' Tests <RemoveFromLeftIfStartsWith>
+Public Sub TestRemoveFromLeftIfStartsWith()
+    Dim testSubName As String
+    testSubName = "RemoveFromLeftIfStartsWith"
+
+    Call AssertAreEqual(testSubName, "TwoThree", RemoveFromLeftIfStartsWith("OneTwoThree", "One"))
+    Call AssertAreEqual(testSubName, "neTwoThree", RemoveFromLeftIfStartsWith("OneTwoThree", "O"))
+    Call AssertAreEqual(testSubName, "OneTwoThree", RemoveFromLeftIfStartsWith("OneTwoThree", "Four"))
+    Call AssertAreEqual(testSubName, "OneTwoThree", RemoveFromLeftIfStartsWith("OneTwoThree", " One"))
+End Sub
+
+
+' Sub: TestRemoveFromRightIfEndsWith
+' Tests <RemoveFromRightIfEndsWith>
+Public Sub TestRemoveFromRightIfEndsWith()
+    Dim testSubName As String
+    testSubName = "RemoveFromRightIfStartsWith"
+
+    Call AssertAreEqual(testSubName, "OneTwo", RemoveFromRightIfEndsWith("OneTwoThree", "Three"))
+    Call AssertAreEqual(testSubName, "OneTwoThre", RemoveFromRightIfEndsWith("OneTwoThree", "e"))
+    Call AssertAreEqual(testSubName, "OneTwoThree", RemoveFromRightIfEndsWith("OneTwoThree", "Four"))
+    Call AssertAreEqual(testSubName, "OneTwoThree", RemoveFromRightIfEndsWith("OneTwoThree", " Three"))
+End Sub
+
+
 ' Sub: TestPadLeft
 ' Tests <PadLeft>
 Public Sub TestPadLeft()
@@ -253,6 +279,8 @@ Public Sub RunAllMdlStringsTest()
     Call TestRandomString
     Call TestRemoveFromLeft
     Call TestRemoveFromRight
+    Call TestRemoveFromLeftIfStartsWith
+    Call TestRemoveFromRightIfEndsWith
     Call TestPadLeft
     Call TestPadRight
     Call TestStrPartRemove

@@ -155,6 +155,54 @@ Public Function RemoveFromRight(ByVal haystack As String, ByVal length As Intege
 End Function
 
 
+' Function: RemoveFromLeftIfStartsWith
+' Removes the needle from the end of the haystack if haystack ends with needle,
+' and returns the remaining part,
+'
+' Parameters:
+' haystack - The big string
+' needle - The needle to be cut out form the end of the haystack
+'
+' Returns:
+' Haystack except the needle
+Public Function RemoveFromLeftIfStartsWith(ByVal haystack As String, ByVal needle As String) As String
+    Dim length As Integer
+    Dim result As String
+    length = Len(needle)
+    result = haystack
+    If length > 0 Then
+        If StartsWith(haystack, needle) Then
+            result = RemoveFromLeft(haystack, length)
+        End If
+    End If
+    RemoveFromLeftIfStartsWith = result
+End Function
+
+
+' Function: RemoveFromRightIfEndsWith
+' Removes the needle from the end of the haystack if haystack ends with needle,
+' and returns the remaining part,
+'
+' Parameters:
+' haystack - The big string
+' needle - The needle to be cut out form the end of the haystack
+'
+' Returns:
+' Haystack except the needle
+Public Function RemoveFromRightIfEndsWith(ByVal haystack As String, ByVal needle As String) As String
+    Dim length As Integer
+    Dim result As String
+    length = Len(needle)
+    result = haystack
+    If length > 0 Then
+        If EndsWith(haystack, needle) Then
+            result = RemoveFromRight(haystack, length)
+        End If
+    End If
+    RemoveFromRightIfEndsWith = result
+End Function
+
+
 ' Function: PadLeft
 ' Pads strNeedle from left using strPadChar until the lenght becomes intMax
 '
