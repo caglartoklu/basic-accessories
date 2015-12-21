@@ -137,6 +137,27 @@ The following code executes the unit tests:
 Call mdlUnitTestRunner.RunAllUnitTests()
 ```
 
+## References
+
+The library is compatible with the following references.
+Note that the versions may differ.
+
+- Visual Basic For Applications
+- Microsoft Access 16.0 Object Library
+- OLE Automation
+- Microsoft Office 16.0 Access database engine Object Library
+
+The references can be accessed *Tools* -> *References* menu in
+Microsoft Visual Basic for Applications IDE.
+
+If there is a missing reference, the following error could be encountered:
+
+```
+Compile Error:
+User-defined type not defined.
+```
+
+
 ## How to contribute?
 
 You are welcome to clone this repository, add new functions and subroutines
