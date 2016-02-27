@@ -363,6 +363,38 @@ Public Sub DebugPrintTableConnections()
 End Sub
 
 
+' Sub: SetAllTableConnections
+' Changes all table connections in the database, except system tables.
+' Use it with caution.
+'
+' Parameters:
+' newConnectionString - the new connection string to set for all tables.
+' simulationMode - The operation will be effective if and only if this is True
+'
+' Type the following in the immediate window to call this sub:
+' | Call mdlDatabase.SetAllTableConnections("new_connection_string_here")
+Public Sub SetAllTableConnections(ByVal newConnectionString As String, ByVal simulationMode As Boolean)
+    Dim currentTableDef As TableDef
+    If Len(Strip(newConnectionString)) > 0 Then
+        For Each currentTableDef In CurrentDb.TableDefs
+            Dim tableConnection As String
+            tableConnection = currentTableDef.Connect
+            If Len(tableConnection) > 0 Then
+                If Not simulationMode Then
+                    currentTableDef.Connect = newConnectionString
+                    Debug.Print "SetAllTableConnections : " & currentTableDef.SourceTableName & " | " & currentTableDef.Connect
+                Else
+                    Debug.Print "SetAllTableConnections [SiMULATED] : " & currentTableDef.SourceTableName & " | " & currentTableDef.Connect
+                End If
+                ' Table1 | ;DATABASE=C:\path\to\my\projects\myproject\DatabaseBackend.accdb
+            End If
+        Next
+    Else
+        Debug.Print "SetAllTableConnections : new connection string is empty, nothing to do."
+    End If
+End Sub
+
+
 ' Sub: ConnectTable
 ' Connects the table to another data source by changing its connection string.
 ' This sub is mostly used in split database architecture.
