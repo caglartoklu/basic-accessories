@@ -453,7 +453,7 @@ Public Sub AddPrefixToAllTables(ByVal prefix As String, ByVal simulationMode As 
                 Dim newTableName As String
                 newTableName = prefix & currentTableName
                 Debug.Print (currentTableName & " -> " & newTableName)
-                If simulationMode Then
+                If Not simulationMode Then
                     currentTableDef.name = newTableName
                 End If
             End If
@@ -484,7 +484,7 @@ Public Sub RemovePrefixFromAllTables(ByVal prefix As String, ByVal simulationMod
                 Dim newTableName As String
                 newTableName = RemoveFromLeftIfStartsWith(currentTableName, prefix)
                 Debug.Print (currentTableName & " -> " & newTableName)
-                If simulationMode Then
+                If Not simulationMode Then
                     currentTableDef.name = newTableName
                 End If
             End If
@@ -513,7 +513,7 @@ Public Sub AddSuffixToAllTables(ByVal suffix As String, ByVal simulationMode As 
                 Dim newTableName As String
                 newTableName = currentTableName & suffix
                 Debug.Print (currentTableName & " -> " & newTableName)
-                If simulationMode Then
+                If Not simulationMode Then
                     currentTableDef.name = newTableName
                 End If
             End If
@@ -542,7 +542,7 @@ Public Sub RemoveSuffixFromAllTables(ByVal suffix As String, ByVal simulationMod
                 Dim newTableName As String
                 newTableName = RemoveFromRightIfEndsWith(currentTableName, suffix)
                 Debug.Print (currentTableName & " -> " & newTableName)
-                If simulationMode Then
+                If Not simulationMode Then
                     currentTableDef.name = newTableName
                 End If
             End If
