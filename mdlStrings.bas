@@ -17,11 +17,11 @@ Option Explicit
 '
 ' See also:
 ' <EndsWith>
-Public Function StartsWith(ByVal haystack As String, ByVal needle As String) As Boolean
-    Dim result As Boolean
-    result = 0
+Public Function StartsWith(ByVal haystack As String, ByVal needle As String) As Integer
+    Dim result As Integer
+    result = vbFalse
     If Left(haystack, Len(needle)) = needle Then
-        result = 1
+        result = vbTrue
     End If
     StartsWith = result
 End Function
@@ -39,11 +39,11 @@ End Function
 '
 ' See also:
 ' <StartsWith>
-Public Function EndsWith(ByVal haystack As String, ByVal needle As String) As Boolean
-    Dim result As Boolean
-    result = False
+Public Function EndsWith(ByVal haystack As String, ByVal needle As String) As Integer
+    Dim result As Integer
+    result = vbFalse
     If Right(haystack, Len(needle)) = needle Then
-        result = True
+        result = vbTrue
     End If
     EndsWith = result
 End Function
@@ -58,18 +58,18 @@ End Function
 '
 ' Returns:
 ' True if the haystack is a comment, False otherwise.
-Public Function IsComment(ByVal haystack As String) As Boolean
-    Dim result As Boolean
+Public Function IsComment(ByVal haystack As String) As Integer
+    Dim result As Integer
     haystack = Trim(haystack)
-    result = False
-    If StartsWith(haystack, "'") = True Then
-        result = True
-    ElseIf StartsWith(haystack, "#") = True Then
-        result = True
-    ElseIf StartsWith(haystack, ";") = True Then
-        result = True
-    ElseIf StartsWith(haystack, "//") = True Then
-        result = True
+    result = vbFalse
+    If StartsWith(haystack, "'") = vbTrue Then
+        result = vbTrue
+    ElseIf StartsWith(haystack, "#") = vbTrue Then
+        result = vbTrue
+    ElseIf StartsWith(haystack, ";") = vbTrue Then
+        result = vbTrue
+    ElseIf StartsWith(haystack, "//") = vbTrue Then
+        result = vbTrue
     End If
     IsComment = result
 End Function
@@ -296,22 +296,22 @@ End Function
 Public Function LStrip(ByVal haystack As String) As String
     Dim result As String
     result = haystack
-    Dim finished As Boolean
-    finished = False
+    Dim finished As Integer
+    finished = vbFalse
     While Not finished
-        finished = True
+        finished = vbTrue
         If Left(result, 1) = vbCr Then
             result = Right(result, Len(result) - 1)
-            finished = False
+            finished = vbFalse
         ElseIf Left(result, 1) = vbLf Then
             result = Right(result, Len(result) - 1)
-            finished = False
+            finished = vbFalse
         ElseIf Left(result, 1) = vbCrlf Then
             result = Right(result, Len(result) - 1)
-            finished = False
+            finished = vbFalse
         ElseIf Left(result, 1) = vbTab Then
             result = Right(result, Len(result) - 1)
-            finished = False
+            finished = vbFalse
         End If
         result = LTrim(result)
     Wend
@@ -332,22 +332,22 @@ End Function
 Public Function RStrip(ByVal data As String) As String
     Dim result As String
     result = data
-    Dim finished As Boolean
-    finished = False
+    Dim finished As Integer
+    finished = vbFalse
     While Not finished
-        finished = True
+        finished = vbTrue
         If Right(result, 1) = vbCr Then
             result = Left(result, Len(result) - 1)
-            finished = False
+            finished = vbFalse
         ElseIf Right(result, 1) = vbLf Then
             result = Left(result, Len(result) - 1)
-            finished = False
+            finished = vbFalse
         ElseIf Right(result, 1) = vbCrlf Then
             result = Left(result, Len(result) - 1)
-            finished = False
+            finished = vbFalse
         ElseIf Right(result, 1) = vbTab Then
             result = Left(result, Len(result) - 1)
-            finished = False
+            finished = vbFalse
         End If
         result = RTrim(result)
     Wend

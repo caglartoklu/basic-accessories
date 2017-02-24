@@ -60,11 +60,11 @@ End Function
 '
 ' Returns:
 ' True if the file exists, False otherwise.
-Public Function FileExists(ByVal fileToTest As String) As Boolean
-    Dim result As Boolean
-    result = False
+Public Function FileExists(ByVal fileToTest As String) As Integer
+    Dim result As Integer
+    result = vbFalse
     If Len(Dir(fileToTest)) > 0 Then
-        result = True
+        result = vbTrue
     End If
     FileExists = result
 End Function
