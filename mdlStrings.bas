@@ -329,9 +329,9 @@ End Function
 '
 ' Returns:
 ' A copy of haystack without trailing whitespace characters.
-Public Function RStrip(ByVal data As String) As String
+Public Function RStrip(ByVal haystack As String) As String
     Dim result As String
-    result = data
+    result = haystack
     Dim finished As Boolean
     finished = False
     While Not finished
