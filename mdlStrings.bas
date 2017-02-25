@@ -17,11 +17,11 @@ Option Explicit
 '
 ' See also:
 ' <EndsWith>
-Public Function StartsWith(ByVal haystack As String, ByVal needle As String) As Integer
-    Dim result As Integer
-    result = vbFalse
+Public Function StartsWith(ByVal haystack As String, ByVal needle As String) As Boolean
+    Dim result As Boolean
+    result = 0
     If Left(haystack, Len(needle)) = needle Then
-        result = vbTrue
+        result = 1
     End If
     StartsWith = result
 End Function
@@ -39,11 +39,11 @@ End Function
 '
 ' See also:
 ' <StartsWith>
-Public Function EndsWith(ByVal haystack As String, ByVal needle As String) As Integer
-    Dim result As Integer
-    result = vbFalse
+Public Function EndsWith(ByVal haystack As String, ByVal needle As String) As Boolean
+    Dim result As Boolean
+    result = False
     If Right(haystack, Len(needle)) = needle Then
-        result = vbTrue
+        result = True
     End If
     EndsWith = result
 End Function
@@ -58,18 +58,18 @@ End Function
 '
 ' Returns:
 ' True if the haystack is a comment, False otherwise.
-Public Function IsComment(ByVal haystack As String) As Integer
-    Dim result As Integer
+Public Function IsComment(ByVal haystack As String) As Boolean
+    Dim result As Boolean
     haystack = Trim(haystack)
-    result = vbFalse
-    If StartsWith(haystack, "'") = vbTrue Then
-        result = vbTrue
-    ElseIf StartsWith(haystack, "#") = vbTrue Then
-        result = vbTrue
-    ElseIf StartsWith(haystack, ";") = vbTrue Then
-        result = vbTrue
-    ElseIf StartsWith(haystack, "//") = vbTrue Then
-        result = vbTrue
+    result = False
+    If StartsWith(haystack, "'") = True Then
+        result = True
+    ElseIf StartsWith(haystack, "#") = True Then
+        result = True
+    ElseIf StartsWith(haystack, ";") = True Then
+        result = True
+    ElseIf StartsWith(haystack, "//") = True Then
+        result = True
     End If
     IsComment = result
 End Function
@@ -296,22 +296,22 @@ End Function
 Public Function LStrip(ByVal haystack As String) As String
     Dim result As String
     result = haystack
-    Dim finished As Integer
-    finished = vbFalse
+    Dim finished As Boolean
+    finished = False
     While Not finished
-        finished = vbTrue
+        finished = True
         If Left(result, 1) = vbCr Then
             result = Right(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Left(result, 1) = vbLf Then
             result = Right(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Left(result, 1) = vbCrlf Then
             result = Right(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Left(result, 1) = vbTab Then
             result = Right(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         End If
         result = LTrim(result)
     Wend
@@ -332,22 +332,22 @@ End Function
 Public Function RStrip(ByVal data As String) As String
     Dim result As String
     result = data
-    Dim finished As Integer
-    finished = vbFalse
+    Dim finished As Boolean
+    finished = False
     While Not finished
-        finished = vbTrue
+        finished = True
         If Right(result, 1) = vbCr Then
             result = Left(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Right(result, 1) = vbLf Then
             result = Left(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Right(result, 1) = vbCrlf Then
             result = Left(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Right(result, 1) = vbTab Then
             result = Left(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         End If
         result = RTrim(result)
     Wend
@@ -475,3 +475,4 @@ Public Function SafeSql(ByVal sql As String) As String
     sql = Replace(sql, "'", "''")
     SafeSql = sql
 End Function 'SafeSql()
+

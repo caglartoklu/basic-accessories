@@ -32,41 +32,41 @@ Private Function GetDatabasePath() As String
 End Function
 
 
-Private Function StartsWith(ByVal haystack As String, ByVal needle As String) As Integer
+Private Function StartsWith(ByVal haystack As String, ByVal needle As String) As Boolean
     ' original in: mdlStrings.bas
-    Dim result As Integer
-    result = vbFalse
+    Dim result As Boolean
+    result = False
     If Left(haystack, Len(needle)) = needle Then
-        result = vbTrue
+        result = True
     End If
     StartsWith = result
 End Function
 
 
-Private Function EndsWith(ByVal haystack As String, ByVal needle As String) As Integer
+Private Function EndsWith(ByVal haystack As String, ByVal needle As String) As Boolean
     ' original in: mdlStrings.bas
-    Dim result As Integer
-    result = vbFalse
+    Dim result As Boolean
+    result = False
     If Right(haystack, Len(needle)) = needle Then
-        result = vbTrue
+        result = True
     End If
     EndsWith = result
 End Function
 
 
-Private Function IsComment(ByVal haystack As String) As Integer
+Private Function IsComment(ByVal haystack As String) As Boolean
     ' original in: mdlStrings.bas
-    Dim result As Integer
+    Dim result As Boolean
     haystack = Strip(haystack)
-    result = vbFalse
-    If StartsWith(haystack, "'") = vbTrue Then
-        result = vbTrue
-    ElseIf StartsWith(haystack, "#") = vbTrue Then
-        result = vbTrue
-    ElseIf StartsWith(haystack, ";") = vbTrue Then
-        result = vbTrue
-    ElseIf StartsWith(haystack, "//") = vbTrue Then
-        result = vbTrue
+    result = False
+    If StartsWith(haystack, "'") = True Then
+        result = True
+    ElseIf StartsWith(haystack, "#") = True Then
+        result = True
+    ElseIf StartsWith(haystack, ";") = True Then
+        result = True
+    ElseIf StartsWith(haystack, "//") = True Then
+        result = True
     End If
     IsComment = result
 End Function
@@ -76,22 +76,22 @@ Private Function LStrip(ByVal haystack As String) As String
     ' original in: mdlStrings.bas
     Dim result As String
     result = haystack
-    Dim finished As Integer
-    finished = vbFalse
+    Dim finished As Boolean
+    finished = False
     While Not finished
-        finished = vbTrue
+        finished = True
         If Left(result, 1) = vbCr Then
             result = Right(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Left(result, 1) = vbLf Then
             result = Right(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Left(result, 1) = vbCrlf Then
             result = Right(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Left(result, 1) = vbTab Then
             result = Right(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         End If
         result = LTrim(result)
     Wend
@@ -103,22 +103,22 @@ Private Function RStrip(ByVal haystack As String) As String
     ' original in: mdlStrings.bas
     Dim result As String
     result = haystack
-    Dim finished As Integer
-    finished = vbFalse
+    Dim finished As Boolean
+    finished = False
     While Not finished
-        finished = vbTrue
+        finished = True
         If Right(result, 1) = vbCr Then
             result = Left(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Right(result, 1) = vbLf Then
             result = Left(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Right(result, 1) = vbCrlf Then
             result = Left(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         ElseIf Right(result, 1) = vbTab Then
             result = Left(result, Len(result) - 1)
-            finished = vbFalse
+            finished = False
         End If
         result = RTrim(result)
     Wend
@@ -270,7 +270,7 @@ Public Sub ImportModulesFromDisk()
 
         If Len(Strip(onlyFileName)) > 0 Then
             ' if there is a non empty line
-            If IsComment(onlyFileName) = vbFalse Then
+            If IsComment(onlyFileName) = False Then
                 ' if the line is not a comment
                 On Error Resume Next
                 moduleName = Left(onlyFileName, Len(onlyFileName) - Len(".bas"))
@@ -322,3 +322,4 @@ Public Sub RemoveUnregisteredModules(ByVal some4LetterNumber As String)
         End If
     End If
 End Sub
+

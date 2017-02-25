@@ -60,11 +60,11 @@ End Function
 '
 ' Returns:
 ' True if the file exists, False otherwise.
-Public Function FileExists(ByVal fileToTest As String) As Integer
-    Dim result As Integer
-    result = vbFalse
+Public Function FileExists(ByVal fileToTest As String) As Boolean
+    Dim result As Boolean
+    result = False
     If Len(Dir(fileToTest)) > 0 Then
-        result = vbTrue
+        result = True
     End If
     FileExists = result
 End Function
@@ -316,3 +316,4 @@ Public Sub OpenFolderInExplorer(ByVal folderPath As String)
     cmd = "explorer " & quote & folderPath & quote
     Call Shell(cmd, vbNormalFocus)
 End Sub
+
